@@ -1,7 +1,7 @@
 @import '../../styles/mixins';
 
 .footerContainer {
-    padding: 0 !important;
+    // padding: 0 !important;
     background-color: #F4F5F7;
     position: absolute;
     bottom: 0;
@@ -19,6 +19,41 @@
         }
     }
 
+    .footerContainer__links {
+        text-align: center;
+
+        ul {
+            list-style-type: none;
+            padding: 0 !important;
+            li {
+                margin: 20px 0;
+            }
+    
+            a {
+                text-decoration: none;
+                list-style-type: none;
+                color: #2c2c2c;
+                font-weight: 600;
+    
+                &:hover {
+                    text-decoration: underline;
+                }
+            }
+        }
+
+        .newsletterContainer {
+            display: flex;
+            place-content: center;
+            height: 50px;
+
+            button {
+                margin-left: 1rem;
+                color: #F29D16;
+                height: 111%;
+            }
+        }
+    }
+
     .footerContainer__copyright {
         background-color: #e7e9ec;
         display: flex;
@@ -29,6 +64,14 @@
         @include laptopUp {
             min-height: 60px;
             margin-top: 5%;
+        }
+
+        @include phoneUp {
+            margin-top: 60px;
+        }
+
+        @include tabletPortraitUp {
+            margin-top: 60px;
         }
     }
 }
