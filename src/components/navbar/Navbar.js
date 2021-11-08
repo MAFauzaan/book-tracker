@@ -3,6 +3,8 @@ import { NavLink } from 'react-router-dom';
 import { AppBar, IconButton, Toolbar, Drawer } from '@mui/material';
 import { Menu } from '@mui/icons-material';
 
+import AccountCircleIcon from '@mui/icons-material/AccountCircle';
+
 import Logo from '../../assets/LogoHeader.png';
 
 import './Navbar.scss';
@@ -52,7 +54,12 @@ const Navbar = () => {
         return(
             links.map(link => {
                 return (
-                    <NavLink to={link.to}>{link.label}</NavLink>
+                    <NavLink 
+                        to={link.to} 
+                        style={!isMobile? {margin: '0px 15px'} : {margin: '15px 0'}}
+                    >
+                        {link.label}
+                    </NavLink>
                 )
             })
         )
@@ -80,7 +87,7 @@ const Navbar = () => {
 
                 {
                     !isMobile &&
-                    <div>
+                    <div className="toolbar__linksContainer">
                         <LinksGroup />
                     </div>
                 }
