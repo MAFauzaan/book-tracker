@@ -1,21 +1,22 @@
 @import '../../styles/mixins';
 
 .footerContainer {
-    // padding: 0 !important;
+    padding: 0 !important;
     background-color: #F4F5F7;
-    position: absolute;
-    bottom: 0;
-    @include laptopUp {
-        min-height: 250px;
-    }
+    min-height: 250px;
 
     .footerContainer__logo {
         text-align: center;
         img {
             width: 60%;
         }
+
         @include laptopUp {
             padding: 2% 10% 0 10% !important;
+        }
+
+        @include phoneUp {
+            padding:  5%;
         }
     }
 

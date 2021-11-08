@@ -8,15 +8,15 @@ import './Layout.scss';
 
 const Layout = (props) => {
     return (  
-        <>
         <ThemeProvider theme={theme}>
-            <Navbar />  
-                <main>
-                    {props.children}
-                </main>
-            <Footer />
+            <div className="container">
+                <Navbar />  
+                    <main className="content" style={{minHeight: '400px'}}>
+                        {props.children}
+                    </main>
+                <Footer />
+            </div>
         </ThemeProvider>
-        </>
     );
 }
  

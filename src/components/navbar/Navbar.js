@@ -26,7 +26,7 @@ const Navbar = () => {
         isMobile: false,
         drawer: false
     })
-
+    
     const {  isMobile, drawer } = mobile
 
     useEffect(() => {
@@ -43,11 +43,11 @@ const Navbar = () => {
     }, []);
 
     const openDrawer = () => {
-        return setMobile((prevState) => ({...prevState, openDrawer: true}))
+        return setMobile((prevState) => ({...prevState, drawer: true}))
     }
 
     const closeDrawer = () => {
-        return setMobile((prevState) => ({...prevState, openDrawer: false}))
+        return setMobile((prevState) => ({...prevState, drawer: false}))
     }
 
     const LinksGroup = () => {
@@ -56,7 +56,10 @@ const Navbar = () => {
                 return (
                     <NavLink 
                         to={link.to} 
-                        style={!isMobile? {margin: '0px 15px'} : {margin: '15px 0'}}
+                        style={({ isActive }) =>
+                        isActive ? {borderBottom: '3px solid #F29D16'} : undefined
+                      }
+                        className="link"
                     >
                         {link.label}
                     </NavLink>
@@ -75,22 +78,36 @@ const Navbar = () => {
                             <Menu />
                         </IconButton>
 
-                        <Drawer {...{anchor: 'left', open: openDrawer, onClose: closeDrawer}}>
-                            <LinksGroup />
-                        </Drawer>
+                        {
+                            drawer ?
+                            <Drawer {...{anchor: 'left', open: openDrawer, onClose: closeDrawer}}>
+                                <div className="">
+
+                                </div>
+                                <LinksGroup />
+                            </Drawer>
+                            :
+                            null
+                        }
                     </>
                 }
 
-                <NavLink to='/' className="toolbar__logoContainer">
-                    <img src={Logo} alt="Logo" />
-                </NavLink>
-
+                <div className="toolbar_leftContainer">
+                    <NavLink to='/'  className="toolbar__logoContainer">
+                        <img src={Logo} alt="Logo" />
+                    </NavLink>
                 {
                     !isMobile &&
                     <div className="toolbar__linksContainer">
                         <LinksGroup />
                     </div>
                 }
+                </div>
+
+                <IconButton {...{edge: 'end', 'aria-label': 'menu', 'aria-haspopup': 'true', onClick: openDrawer}}>
+                    <AccountCircleIcon fontSize='large' />
+                </IconButton>
+
             </Toolbar>
         </AppBar>
     );

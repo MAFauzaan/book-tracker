@@ -1,25 +1,52 @@
+@import '../../styles//mixins';
+
 .navbar {
-    height: 64px;
+    height: 84px;
+    padding: 0 5%;
     background-color: #E7E9EC !important;
 
     .navbar__toolbar {
         display: flex;
-        justify-content: space-around;
+        justify-content: space-between;
         height: 100%;
+        box-shadow: 0 2px 2px -2px rgba(0,0,0,.2);
 
-        .toolbar__logoContainer {
+        .toolbar_leftContainer {
             height: 100%;
+            display: flex;
+            place-items: center;
 
-            img {
+            .toolbar__logoContainer {
                 height: 100%;
+    
+                img {
+                    height: 100%;
+                }
+            }
+    
+            .toolbar__linksContainer{
+                a {
+                    text-decoration: none;
+                    color: #2c2c2c;
+                    font-weight: 600;
+                }
+
+                @include tabletPortraitUp {
+                    margin-left: 30px;
+                }
             }
         }
+    }
 
-        .toolbar__linksContainer{
-            a {
-                text-decoration: none;
-                color: #2c2c2c;
-            }
+    .link {
+        font-size: 20px;
+        
+        @include phoneUp {
+            margin: 15px 0;
+        }
+
+        @include tabletPortraitUp {
+            margin: 0 15px;
         }
     }
 }

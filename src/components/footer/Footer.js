@@ -8,7 +8,7 @@ import Logo from '../../assets/Logo1.png'
 const Footer = () => {
     return (  
         <Container maxWidth={false} className="footerContainer">
-            <Grid container >
+            <Grid container className="footerContainer--sitemap">
                 <Grid item xs={12} sm={12} md={4} className="footerContainer__logo">
                     <img src={Logo} alt="BookIcon" /> 
                     <p>BookTracker is an online library filled with various types of reading for your needs.</p>
