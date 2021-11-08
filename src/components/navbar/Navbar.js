@@ -3,6 +3,8 @@ import { NavLink } from 'react-router-dom';
 import { AppBar, IconButton, Toolbar, Drawer } from '@mui/material';
 import { Menu } from '@mui/icons-material';
 
+import AccountCircleIcon from '@mui/icons-material/AccountCircle';
+
 import Logo from '../../assets/LogoHeader.png';
 
 import './Navbar.scss';
@@ -24,7 +26,7 @@ const Navbar = () => {
         isMobile: false,
         drawer: false
     })
-
+    
     const {  isMobile, drawer } = mobile
 
     useEffect(() => {
@@ -41,18 +43,32 @@ const Navbar = () => {
     }, []);
 
     const openDrawer = () => {
-        return setMobile((prevState) => ({...prevState, openDrawer: true}))
+        return setMobile((prevState) => ({...prevState, drawer: true}))
     }
 
     const closeDrawer = () => {
-        return setMobile((prevState) => ({...prevState, openDrawer: false}))
+        return setMobile((prevState) => ({...prevState, drawer: false}))
     }
 
     const LinksGroup = () => {
         return(
             links.map(link => {
                 return (
-                    <NavLink to={link.to}>{link.label}</NavLink>
+                    <NavLink 
+                        to={link.to} 
+                        style={({ isActive }) =>
+                        (isActive && !mobile) ? 
+                            {borderBottom: '3px solid #F29D16'} 
+                            : 
+                        (isActive && mobile) ?
+                            {backgroundColor: '#d2d2d2'}
+                            :
+                        null
+                      }
+                        className="link"
+                    >
+                        {link.label}
+                    </NavLink>
                 )
             })
         )
@@ -68,22 +84,35 @@ const Navbar = () => {
                             <Menu />
                         </IconButton>
 
-                        <Drawer {...{anchor: 'left', open: openDrawer, onClose: closeDrawer}}>
-                            <LinksGroup />
-                        </Drawer>
+                        {
+                            drawer ?
+                            <Drawer {...{anchor: 'left', open: openDrawer, onClose: closeDrawer}} className="toolbar_drawer">
+                                <div className="toolbar__linksContainer">
+                                    <LinksGroup />
+                                </div>
+                            </Drawer>
+                            :
+                            null
+                        }
                     </>
                 }
 
-                <NavLink to='/' className="toolbar__logoContainer">
-                    <img src={Logo} alt="Logo" />
-                </NavLink>
-
+                <div className="toolbar_leftContainer">
+                    <NavLink to='/'  className="toolbar__logoContainer">
+                        <img src={Logo} alt="Logo" />
+                    </NavLink>
                 {
                     !isMobile &&
-                    <div>
+                    <div className="toolbar__linksContainer">
                         <LinksGroup />
                     </div>
                 }
+                </div>
+
+                <IconButton {...{edge: 'end', 'aria-label': 'menu', 'aria-haspopup': 'true', onClick: openDrawer}}>
+                    <AccountCircleIcon fontSize='large' />
+                </IconButton>
+
             </Toolbar>
         </AppBar>
     );
