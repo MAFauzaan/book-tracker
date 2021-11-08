@@ -57,7 +57,13 @@ const Navbar = () => {
                     <NavLink 
                         to={link.to} 
                         style={({ isActive }) =>
-                        isActive ? {borderBottom: '3px solid #F29D16'} : undefined
+                        (isActive && !mobile) ? 
+                            {borderBottom: '3px solid #F29D16'} 
+                            : 
+                        (isActive && mobile) ?
+                            {backgroundColor: '#d2d2d2'}
+                            :
+                        null
                       }
                         className="link"
                     >
@@ -80,11 +86,10 @@ const Navbar = () => {
 
                         {
                             drawer ?
-                            <Drawer {...{anchor: 'left', open: openDrawer, onClose: closeDrawer}}>
-                                <div className="">
-
+                            <Drawer {...{anchor: 'left', open: openDrawer, onClose: closeDrawer}} className="toolbar_drawer">
+                                <div className="toolbar__linksContainer">
+                                    <LinksGroup />
                                 </div>
-                                <LinksGroup />
                             </Drawer>
                             :
                             null

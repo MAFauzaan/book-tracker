@@ -1,5 +1,29 @@
 @import '../../styles//mixins';
 
+.toolbar__linksContainer{
+    a {
+        text-decoration: none;
+        color: #2c2c2c;
+        font-weight: 600;
+    }
+
+    @include tabletPortraitUp {
+        margin-left: 30px;
+    }
+
+    @include phoneUp {
+        display: grid;
+        width: 180px;
+        text-align: center;
+
+        a {
+            padding: 15px 0;
+        }
+    }
+}
+
+
+
 .navbar {
     height: 84px;
     padding: 0 5%;
@@ -24,17 +48,11 @@
                 }
             }
     
-            .toolbar__linksContainer{
-                a {
-                    text-decoration: none;
-                    color: #2c2c2c;
-                    font-weight: 600;
-                }
+            @extend .toolbar__linksContainer
+        }
 
-                @include tabletPortraitUp {
-                    margin-left: 30px;
-                }
-            }
+        .drawer {
+            width: 40%;
         }
     }
 
