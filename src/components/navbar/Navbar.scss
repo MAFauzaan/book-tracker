@@ -7,10 +7,6 @@
         font-weight: 600;
     }
 
-    @include tabletPortraitUp {
-        margin-left: 30px;
-    }
-
     @include phoneUp {
         display: grid;
         width: 180px;
