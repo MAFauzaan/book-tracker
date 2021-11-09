@@ -13,7 +13,7 @@ const Navbar = () => {
     
     const links = [
         {
-            label: 'Home',
+            label: 'Catalogue',
             to: '/'
         },
         {
@@ -28,6 +28,8 @@ const Navbar = () => {
     })
     
     const {  isMobile, drawer } = mobile
+
+    console.log(mobile)
 
     useEffect(() => {
         const setResponsiveness = () => {
@@ -57,10 +59,10 @@ const Navbar = () => {
                     <NavLink 
                         to={link.to} 
                         style={({ isActive }) =>
-                        (isActive && !mobile) ? 
+                        (isActive && !isMobile) ? 
                             {borderBottom: '3px solid #F29D16'} 
                             : 
-                        (isActive && mobile) ?
+                        (isActive && isMobile) ?
                             {backgroundColor: '#d2d2d2'}
                             :
                         null

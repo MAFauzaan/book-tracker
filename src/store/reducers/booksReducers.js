@@ -7,7 +7,7 @@ const initialState = {
 
 const booksReducer = (state = initialState, action) => {
     switch (action.type) {
-        case types.SET_BOOKS:
+        case types.GET_BOOKS:
             return {...state, fetchedBooks: action.books}
     
         default:
