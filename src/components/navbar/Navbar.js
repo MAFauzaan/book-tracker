@@ -29,8 +29,6 @@ const Navbar = () => {
     
     const {  isMobile, drawer } = mobile
 
-    console.log(mobile)
-
     useEffect(() => {
         const setResponsiveness = () => {
             return window.innerWidth < 600 ?

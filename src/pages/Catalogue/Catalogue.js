@@ -1,11 +1,13 @@
 import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { Container } from "@mui/material";
+import { Container, Grid } from "@mui/material";
 import axios from "axios";
 
 import { getBooks } from '../../store/actions/booksActions'
 
 import CardUI from "../../components/card/Card";
+
+import "./Catalogue.scss"
 
 const Catalogue = () => {
 
@@ -22,19 +24,21 @@ const Catalogue = () => {
     }, [dispatch]);
 
     return (  
-        <Container>
-            <h1>Homepage</h1>
+        <Container className="container">
+            <h1>BookTracker's Best Seller Catalogue</h1>
 
-            {
-                books.map(book => {
-                    return (
-                        <CardUI 
-                            name={book.book_details[0].title}
-                            src={book.amazon_product_url}
-                        />
-                    )
-                })
-            }
+            <Grid className="books__Container">
+                {
+                    books.map(book => {
+                        return (
+                            <CardUI 
+                                name={book.book_details[0].title}
+                                src={book.amazon_product_url}
+                            />
+                        )
+                    })
+                }
+            </Grid>
         </Container>
     );
 }

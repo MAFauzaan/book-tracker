@@ -1,8 +1,11 @@
 import { Card, CardContent, CardMedia } from "@mui/material";
 
+import "./Card.scss"
+
 const CardUI = (props) => {
+    console.log(props)
     return ( 
-        <Card>
+        <Card className="card">
             <CardMedia 
                 component="image"
                 alt={props.name}
