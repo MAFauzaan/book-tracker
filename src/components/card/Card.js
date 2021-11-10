@@ -1,19 +1,21 @@
-import { Card, CardContent, CardMedia } from "@mui/material";
+import { Card, CardContent, CardMedia, Typography } from "@mui/material";
 
 import "./Card.scss"
 
 const CardUI = (props) => {
-    console.log(props)
     return ( 
         <Card className="card">
             <CardMedia 
-                component="image"
+                component="img"
                 alt={props.name}
-                height="140"
+                height="280"
                 image={props.src}
             />
-            <CardContent>
-                {props.name}
+            <CardContent sx={{paddingTop: '5px'}}>
+                <Typography variant="body2" sx={{fontSize: '12px', color: '#6d6d6d', marginBottom: '10px'}}>
+                    {props.author}
+                </Typography>
+                <Typography variant="body2">{props.name}</Typography>
             </CardContent>
         </Card>
     );

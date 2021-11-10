@@ -14,6 +14,8 @@ const Catalogue = () => {
     const dispatch = useDispatch();
     const books = useSelector(state => state.books.fetchedBooks);
 
+    console.log(books)
+
     useEffect(() => {
         axios.get('https://api.nytimes.com/svc/books/v3/lists.json?list=hardcover-fiction&api-key=zf1MM73R7FJ2vPQgL25F00XEAbY4ZtJQ')
         .then((result) => {
@@ -30,10 +32,14 @@ const Catalogue = () => {
             <Grid className="books__Container">
                 {
                     books.map(book => {
+                        const bookCover = book.isbns[0].isbn10 || book.isbns[1].isbn10;
+
                         return (
                             <CardUI 
+                                key={bookCover}
                                 name={book.book_details[0].title}
-                                src={book.amazon_product_url}
+                                author={book.book_details[0].author}
+                                src={`https://covers.openlibrary.org/b/isbn/${bookCover}-L.jpg`}
                             />
                         )
                     })

@@ -52,9 +52,10 @@ const Navbar = () => {
 
     const LinksGroup = () => {
         return(
-            links.map(link => {
+            links.map((link, index) => {
                 return (
                     <NavLink 
+                        key={index}
                         to={link.to} 
                         style={({ isActive }) =>
                         (isActive && !isMobile) ? 
