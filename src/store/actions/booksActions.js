@@ -7,3 +7,10 @@ export const getBooks = (books) => {
         books
     };
 };
+
+export const getList = (list) => {
+    return {
+        type: types.GET_LIST,
+        list
+    };
+};

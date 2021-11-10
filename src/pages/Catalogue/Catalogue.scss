@@ -3,11 +3,17 @@
 .container {
 
     h1 {
-        text-decoration: underline;
+        display: flex;
+        place-items: center;
         margin-bottom: 100px;
+        font-weight: 400;
+
+        img{
+            width: 100px;
+        }
     }
 
-    .books__Container {
+    .books__Section {
         display: flex;
         flex-wrap: wrap;
         justify-content: space-between;

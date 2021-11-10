@@ -76,6 +76,8 @@ const Navbar = () => {
     }
 
     return (  
+        <>
+        <div style={{backgroundColor: '#F4F5F7' , height: '25px', width: '100%'}}/>
         <AppBar elevation={0} position="static" className="navbar" color="primary">
             <Toolbar className="navbar__toolbar">
                 {
@@ -116,6 +118,7 @@ const Navbar = () => {
 
             </Toolbar>
         </AppBar>
+        </>
     );
 }
  

@@ -9,7 +9,7 @@ const CardUI = (props) => {
                 component="img"
                 alt={props.name}
                 height="280"
-                image={props.src}
+                image={props.src || <p>Error</p>}
             />
             <CardContent sx={{paddingTop: '5px'}}>
                 <Typography variant="body2" sx={{fontSize: '12px', color: '#6d6d6d', marginBottom: '10px'}}>
