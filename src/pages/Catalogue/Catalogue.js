@@ -54,6 +54,7 @@ const Catalogue = () => {
             </h1>
 
             <Grid className="books__Section">
+                <div>
                 {
                     hardCoverFiction.map(book => {
                         const bookCover = book.isbns[0].isbn10 || book.isbns[1].isbn10;
@@ -68,6 +69,7 @@ const Catalogue = () => {
                         )
                     })
                 }
+                </div>
             </Grid>
         </Container>
     );
