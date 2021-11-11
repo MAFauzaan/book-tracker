@@ -14,11 +14,13 @@
     }
 
     .booksSection {
+        margin-top: 200px;
 
         .bookSection__bookContainer {
             height: 250px;
             display: flex;
             place-items: center;
+            margin-bottom: 250px;
 
             .bookContainer__listName {
                 display: flex;
@@ -26,6 +28,9 @@
                 place-items: center;
                 width: 125px;
                 margin-right: 40px;
+                padding-right: 15px;
+                border-right: 4px solid #000000;
+                height: 110%;
             } 
         }
         
