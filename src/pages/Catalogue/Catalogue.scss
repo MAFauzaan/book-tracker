@@ -13,15 +13,35 @@
         }
     }
 
-    .books__Section {
-        display: flex;
-        flex-wrap: wrap;
-        justify-content: space-between;
-        gap: 50px 20px;
-        width: 100%;
+    .booksSection {
 
-        @include phoneUp {
-            place-content: center;
+        .bookSection__bookContainer {
+            height: 250px;
+            display: flex;
+            place-items: center;
+
+            .bookContainer__listName {
+                display: flex;
+                place-content: end;
+                place-items: center;
+                width: 125px;
+                margin-right: 40px;
+            } 
+        }
+        
+        .booksSection__hardcoverFiction {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: space-between;
+            gap: 50px 20px;
+            margin-top: 150px;
+            height: 450px;
+            width: 100%;
+    
+            @include phoneUp {
+                place-content: center;
+            }
+
         }
     }
 }

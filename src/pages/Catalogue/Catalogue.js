@@ -1,6 +1,7 @@
 import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Container, Grid } from "@mui/material";
+import { Swiper, SwiperSlide } from 'swiper/react/swiper-react.js';
 import axios from "axios";
 
 import { getBooks } from '../../store/actions/booksActions'
@@ -8,7 +9,9 @@ import { getBooks } from '../../store/actions/booksActions'
 import CardUI from "../../components/card/Card";
 import NytLogo from "../../assets/nyt.svg"
 
+import 'swiper/swiper.scss'; 
 import "./Catalogue.scss"
+
 
 const Catalogue = () => {
 
@@ -16,7 +19,13 @@ const Catalogue = () => {
     const books = useSelector(state => state.books.fetchedBooks);
 
     const filteredHardCover = books.filter(({list_name}) => list_name === 'Hardcover Fiction');
-    const hardCoverFiction = filteredHardCover.slice(0,5)
+    const hardCoverFiction = filteredHardCover.slice(0,10);
+
+    const filteredYoungAdultHardcover = books.filter(({list_name}) => list_name === 'Young Adult Hardcover');
+    const youngAdultHardcover = filteredYoungAdultHardcover.slice(0,10);
+
+    const filteredBusinessBooks = books.filter(({list_name}) => list_name === 'Business Books');
+    const businessBooks = filteredBusinessBooks.slice(0,10);
     
 
     useEffect(() => {
@@ -53,22 +62,33 @@ const Catalogue = () => {
                 New York Time's Best Sellers Catalogue
             </h1>
 
-            <Grid className="books__Section">
-                <div>
-                {
-                    hardCoverFiction.map(book => {
-                        const bookCover = book.isbns[0].isbn10 || book.isbns[1].isbn10;
+            <Grid className="booksSection">
+                <div className="bookSection__bookContainer">
+                    <div className="bookContainer__listName">
+                       
+                    </div>
+                    <Swiper 
+                        slidesPerView={4}
+                        spaceBetween={0}
+                        className="booksSection__hardcoverFiction"
+                    >
+                    {
+                        hardCoverFiction.map(book => {
+                            const bookCover = book.isbns[0].isbn10 || book.isbns[1].isbn10;
 
-                        return (
-                            <CardUI 
-                                key={bookCover}
-                                name={book.book_details[0].title}
-                                author={book.book_details[0].author}
-                                src={`https://covers.openlibrary.org/b/isbn/${bookCover}-M.jpg`}
-                            />
-                        )
-                    })
-                }
+                            return (
+                                <SwiperSlide>
+                                <CardUI 
+                                    key={bookCover}
+                                    name={book.book_details[0].title}
+                                    author={book.book_details[0].author}
+                                    src={`https://covers.openlibrary.org/b/isbn/${bookCover}-M.jpg`}
+                                />
+                                </SwiperSlide>
+                            )
+                        })
+                    }
+                    </Swiper>
                 </div>
             </Grid>
         </Container>
