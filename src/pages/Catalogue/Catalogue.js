@@ -1,6 +1,6 @@
 import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { Container, Grid, Typography } from "@mui/material";
+import { Container, Grid } from "@mui/material";
 import { Swiper, SwiperSlide } from 'swiper/react/swiper-react.js';
 import SwiperCore, { Scrollbar } from "swiper";
 import { Link } from "react-router-dom";
@@ -9,6 +9,7 @@ import axios from "axios";
 import { getBooks } from '../../store/actions/booksActions'
 
 import CardUI from "../../components/card/Card";
+import SeeMoreCard from "./component/SeeMoreCard"
 import NytLogo from "../../assets/nyt.svg"
 
 import 'swiper/swiper.scss'; 
@@ -20,7 +21,7 @@ SwiperCore.use([Scrollbar])
 const Catalogue = () => {
 
     const dispatch = useDispatch();
-    const books = useSelector(state => state.books.fetchedBooks);
+    const books = useSelector(state => state.books.homeDisplayedBooks);
 
     const displayItems = ['Hardcover Fiction', 'Young Adult Hardcover', 'Business Books'];    
 
@@ -53,7 +54,7 @@ const Catalogue = () => {
         <Container className="container">
             <h1>
                 <img src={NytLogo} alt="New York Time's Logo" />
-                New York Time's Best Sellers Catalogue
+                New York Time's Best Sellers
             </h1>
 
             <Grid className="booksSection">
@@ -89,14 +90,16 @@ const Catalogue = () => {
                                         )
                                     })
                                 }
+                                <SwiperSlide>
+                                    <SeeMoreCard listName={item}/>
+                                </SwiperSlide>
                                 </Swiper>
                         </div>
                         )
                     })
                 }
-              
             </Grid>
-            <Link to="/full" style={{textAlign: 'center', textDecoration: 'none'}}>
+            <Link to="/catalogue" style={{textAlign: 'center', textDecoration: 'none'}} onClick={() => window.scrollTo(0, 0)}>
                 <h3>More on our full catalogue</h3>
             </Link>
         </Container>

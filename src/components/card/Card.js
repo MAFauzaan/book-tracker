@@ -8,7 +8,7 @@ const CardUI = (props) => {
             <CardMedia 
                 component="img"
                 alt={props.name}
-                height="280"
+                height="330"
                 image={props.src || <p>Error</p>}
             />
             <CardContent sx={{paddingTop: '5px'}}>

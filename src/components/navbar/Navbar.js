@@ -13,8 +13,12 @@ const Navbar = () => {
     
     const links = [
         {
-            label: 'Catalogue',
+            label: 'Home',
             to: '/'
+        },
+        {
+            label: 'Catalogue',
+            to: '/catalogue'
         },
         {
             label: 'Library',

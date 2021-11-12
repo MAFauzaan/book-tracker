@@ -8,6 +8,8 @@ import Layout from "./layout/Layout";
 import Catalogue from './pages/Catalogue/Catalogue';
 
 const Library = React.lazy(() => import("./pages/Library/Library"))
+const CategoryList = React.lazy(() => import("./pages/CategoryListName/CategoryList"))
+const FullCatalogue = React.lazy(() => import("./pages/FullCatalogue/FullCatalogue"))
 
 const App = () => {
 
@@ -27,7 +29,19 @@ const App = () => {
     return (                                                                                                                                                                                                                                
         <Layout>
             <Routes>
-                <Route path="/" element={<Catalogue />}/>
+                <Route exact path="/" element={<Catalogue />}/>
+
+                <Route path="/catalogue/:listname" exact element={
+                        <React.Suspense fallback={<div>Loading Page.....</div>}>
+                            <CategoryList />
+                        </React.Suspense>
+                }/>
+
+                <Route path="/catalogue" exact element={
+                    <React.Suspense fallback={<div>Loading Page.....</div>}>
+                        <FullCatalogue />
+                    </React.Suspense>
+                }/>
 
                 <Route path="/library" element={
                         <React.Suspense fallback={<div>Loading Page.....</div>}>

@@ -5,6 +5,7 @@
     h1 {
         display: flex;
         place-items: center;
+        place-content: center;
         margin-bottom: 100px;
         font-weight: 400;
 
@@ -24,7 +25,7 @@
 
             .bookContainer__listName {
                 display: flex;
-                place-content: end;
+                justify-content: flex-end;
                 place-items: center;
                 width: 125px;
                 margin-right: 40px;

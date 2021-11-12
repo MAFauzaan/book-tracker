@@ -2,6 +2,7 @@ import * as types from '../types';
 
 const initialState = {
     booksList: [],
+    homeDisplayedBooks: [],
     fetchedBooks: [],
     libraryBooks: []
 };
@@ -12,8 +13,11 @@ const booksReducer = (state = initialState, action) => {
             return {...state, booksList: [...state.booksList, action.list]}
 
         case types.GET_BOOKS:
-            return {...state, fetchedBooks: state.fetchedBooks.concat(action.books)}
-    
+            return {...state, homeDisplayedBooks: state.homeDisplayedBooks.concat(action.books)}
+        
+        case types.GET_SPECIFIED_BOOKS:
+            return {...state, fetchedBooks: action.books}
+
         default:
             return state;
     };
