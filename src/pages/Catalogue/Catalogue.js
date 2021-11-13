@@ -80,12 +80,10 @@ const Catalogue = () => {
             
                                         return (
                                             <SwiperSlide>
-                                            <CardUI 
-                                                key={bookCover}
-                                                name={book.book_details[0].title}
-                                                author={book.book_details[0].author}
-                                                src={`https://covers.openlibrary.org/b/isbn/${bookCover}-M.jpg`}
-                                            />
+                                                <CardUI 
+                                                    key={bookCover}
+                                                    bookData = {book}
+                                                />
                                             </SwiperSlide>
                                         )
                                     })

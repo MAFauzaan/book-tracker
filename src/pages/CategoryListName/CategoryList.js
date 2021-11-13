@@ -32,14 +32,13 @@ const CategoryList = () => {
             <h1>{params.listname}</h1>
             <Grid container className="bookContainer">
                 {
-                    books.map(books => {
-                        const bookCover = books.book_details[0].primary_isbn10;
+                    books.map(book => {
+                        const bookCover = book.book_details[0].primary_isbn10;
 
                         return (
                             <CardUI 
-                                name={books.book_details[0].title}
-                                src={`https://covers.openlibrary.org/b/isbn/${bookCover}-M.jpg`}
-                                author={books.book_details[0].author}
+                                key={bookCover}
+                                bookData={book}
                             />
                         )
                     })
