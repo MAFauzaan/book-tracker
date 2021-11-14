@@ -4,6 +4,7 @@ const initialState = {
     booksList: [],
     homeDisplayedBooks: [],
     fetchedBooks: [],
+    bookDetailData: {},
     libraryBooks: []
 };
 
@@ -17,6 +18,9 @@ const booksReducer = (state = initialState, action) => {
         
         case types.GET_SPECIFIED_BOOKS:
             return {...state, fetchedBooks: action.books}
+
+        case types.SET_SPECIFIED_BOOK:
+            return {...state, bookDetailData: action.book}
 
         default:
             return state;

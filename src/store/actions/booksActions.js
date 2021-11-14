@@ -15,6 +15,14 @@ export const getSpecifiedBooks = (books) => {
     };
 };
 
+
+export const setSpecifiedBook = (book) => {
+    return {
+        type: types.SET_SPECIFIED_BOOK,
+        book
+    };
+};
+
 export const getList = (list) => {
     return {
         type: types.GET_LIST,

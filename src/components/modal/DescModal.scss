@@ -18,6 +18,8 @@
     z-index: 100;
     overflow: hidden;
     transform: translate(-50%, -50%);
+    overflow: scroll;
+    overflow-x: hidden;
 
     .overviewModal__imageContainer {
         width: 100%;
@@ -42,8 +44,6 @@
     }
 
     .seeMore {
-        position: absolute;
-        bottom: 10px;
         text-align: center;
         background-color: #ffff;
         padding: 2px;
@@ -69,12 +69,12 @@
     }
 
     @include tabletLandscapeUp {
-        height: 60%;
+        height: 450px;
         width: 30%;
     }
 
     @include laptopUp {
-        height: 60%;
+        height: 400px;
         width: 20%;
     }
 }
