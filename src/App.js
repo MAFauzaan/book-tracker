@@ -1,20 +1,20 @@
-import React, { useEffect } from 'react';
-import { Routes, Route } from "react-router-dom";
-import { useDispatch } from 'react-redux';
+import React, { useEffect, useState } from 'react';
+import { Routes, Route, useNavigate } from "react-router-dom";
+import { useDispatch, useSelector } from 'react-redux';
 import axios from 'axios'
 
 import { getList } from './store/actions/booksActions';
 import Layout from "./layout/Layout";
 import Catalogue from './pages/Catalogue/Catalogue';
 
-const Library = React.lazy(() => import("./pages/Library/Library"))
-const CategoryList = React.lazy(() => import("./pages/CategoryListName/CategoryList"))
-const FullCatalogue = React.lazy(() => import("./pages/FullCatalogue/FullCatalogue"))
-const BookDetail = React.lazy(() => import("./pages/BookDetail/BookDetail"))
+const Library = React.lazy(() => import("./pages/Library/Library"));
+const LoginUI = React.lazy(() => import("./pages/Login/Login"));
 
 const App = () => {
 
+    const navigate = useNavigate();
     const dispatch = useDispatch();
+    const isLoggedIn = useSelector(state => state.user.user);
 
     useEffect(() => {
         axios.get('https://api.nytimes.com/svc/books/v3/lists/names.json?api-key=zf1MM73R7FJ2vPQgL25F00XEAbY4ZtJQ')
@@ -25,30 +25,17 @@ const App = () => {
                 return dispatch(getList(item.list_name));
             });
         });
-    }, [dispatch]);
+    }, [dispatch, navigate]);
 
     return (                                                                                                                                                                                                                                
         <Layout>
             <Routes>
-                <Route exact path="/" element={<Catalogue />}/>
+                <Route path="/" element={<Catalogue />}/>
 
-                <Route path="/catalogue/:listname" exact element={
+                <Route exact path="/login" element={
                         <React.Suspense fallback={<div>Loading Page.....</div>}>
-                            <CategoryList />
+                            <LoginUI />
                         </React.Suspense>
-                }/>
-
-                <Route path="/catalogue/:listname/:bookTitle" exact element={
-                        <React.Suspense fallback={<div>Loading Page.....</div>}>
-                            <BookDetail />
-                        </React.Suspense>
-                }/>
-
-
-                <Route path="/catalogue" exact element={
-                    <React.Suspense fallback={<div>Loading Page.....</div>}>
-                        <FullCatalogue />
-                    </React.Suspense>
                 }/>
 
                 <Route path="/library" element={

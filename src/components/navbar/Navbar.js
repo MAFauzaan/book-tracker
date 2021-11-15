@@ -1,7 +1,9 @@
 import { useEffect, useState } from 'react';
-import { NavLink } from 'react-router-dom';
-import { AppBar, IconButton, Toolbar, Drawer } from '@mui/material';
-import { Menu } from '@mui/icons-material';
+import { Link, NavLink } from 'react-router-dom';
+import { AppBar, IconButton, Toolbar, Drawer, Button, Menu, MenuItem, Fade } from '@mui/material';
+import { Menu as MenuIcon } from '@mui/icons-material';
+import { useDispatch, useSelector } from 'react-redux';
+import { userLogout } from '../../store/actions/userActions';
 
 import AccountCircleIcon from '@mui/icons-material/AccountCircle';
 
@@ -10,6 +12,10 @@ import Logo from '../../assets/LogoHeader.png';
 import './Navbar.scss';
 
 const Navbar = () => {
+
+    const isLoggedIn = useSelector(state => state.user.isLoggedIn);
+    const dispatch = useDispatch();
+    const user = useSelector(state => state.user.user);
     
     const links = [
         {
@@ -17,12 +23,15 @@ const Navbar = () => {
             to: '/'
         },
         {
-            label: 'Catalogue',
-            to: '/catalogue'
-        },
-        {
             label: 'Library',
             to: '/library'
+        }
+    ]
+
+    const conditionalLink = [
+        {
+            label: 'Home',
+            to: '/'
         }
     ]
 
@@ -32,6 +41,9 @@ const Navbar = () => {
     })
     
     const {  isMobile, drawer } = mobile
+
+    const [ anchorEl, setAnchorEl ] = useState(null);
+    const open = Boolean(anchorEl);
 
     useEffect(() => {
         const setResponsiveness = () => {
@@ -54,9 +66,20 @@ const Navbar = () => {
         return setMobile((prevState) => ({...prevState, drawer: false}))
     }
 
+    const handleClose = () => {
+        setAnchorEl(null)
+    }
+
+    const handleLogout = () => {
+        return dispatch(userLogout())
+    }
+
     const LinksGroup = () => {
+        let link;
+        isLoggedIn ? link = links : link=conditionalLink
+
         return(
-            links.map((link, index) => {
+            link.map((link, index) => {
                 return (
                     <NavLink 
                         key={index}
@@ -88,7 +111,7 @@ const Navbar = () => {
                     isMobile &&
                     <>
                         <IconButton {...{edge: 'start', 'aria-label': 'menu', 'aria-haspopup': 'true', onClick: openDrawer}}>
-                            <Menu />
+                            <MenuIcon />
                         </IconButton>
 
                         {
@@ -116,9 +139,31 @@ const Navbar = () => {
                 }
                 </div>
 
-                <IconButton {...{edge: 'end', 'aria-label': 'menu', 'aria-haspopup': 'true', onClick: openDrawer}}>
-                    <AccountCircleIcon fontSize='large' />
-                </IconButton>
+                {
+                    !isLoggedIn ?
+                    <Link to="/login" style={{color: '#2C2C2C', textDecoration: 'none'}}>
+                        <Button>Log in</Button>
+                    </Link>
+                    :
+                    <>
+                        <IconButton {...{edge: 'end', 'aria-label': 'menu', 'aria-haspopup': 'true', onClick: openDrawer}} onClick={(e) => setAnchorEl(e.currentTarget)}>
+                            <AccountCircleIcon fontSize='large'/>
+                        </IconButton>
+                        <Menu
+                            id="fade-menu"
+                            MenuListProps={{
+                            'aria-labelledby': 'fade-button',
+                            }}
+                            anchorEl={anchorEl}
+                            open={open}
+                            onClose={handleClose}
+                            TransitionComponent={Fade}
+                        >
+                            <MenuItem onClick={handleClose}>{user.username}</MenuItem>
+                            <MenuItem onClick={handleLogout}>Log out</MenuItem>
+                        </Menu>
+                    </>
+                }
 
             </Toolbar>
         </AppBar>
