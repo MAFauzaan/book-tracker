@@ -20,7 +20,7 @@ import "./Catalogue.scss"
 
 SwiperCore.use([Scrollbar])
 
-const Catalogue = () => {
+const Catalogue = ({contract, currentUser}) => {
 
     const dispatch = useDispatch();
     const books = useSelector(state => state.books.homeDisplayedBooks);
@@ -100,12 +100,13 @@ const Catalogue = () => {
                                 <div className="bookSection__bookContainer">
                                     <div className="bookContainer__listName">
                                         <h1>{item}</h1>
+                                        <hr />
                                     </div>
                                     <Swiper 
                                         scrollbar={{"draggable": true, "hide": true}}
                                         slidesPerView={
                                             window.innerWidth < 600 ?
-                                            1
+                                            2
                                             :
                                             window.innerWidth < 900 ?
                                             2
@@ -115,8 +116,19 @@ const Catalogue = () => {
                                             :
                                             4
                                         }
-                                        spaceBetween={0}
+                                        spaceBetween={
+                                            window.innerWidth < 600 ?
+                                            80
+                                            :
+                                            0
+                                        }
                                         className="booksSection__hardcoverFiction"
+                                        centeredSlides={
+                                            window.innerWidth < 600 ?
+                                           true
+                                           :
+                                           false
+                                        }
                                     >
                                     {
                                         listType.map(book => {
@@ -147,7 +159,10 @@ const Catalogue = () => {
 
                             return(
                                 <Grid xs={12} sm={6} md={4} lg={3} sx={{display: 'flex', placeContent: 'center'}} key={bookCover}>
-                                    <CardUI bookData={book} setBookDetail = {setBookDetailModal}/>
+                                    <CardUI 
+                                        bookData={book} 
+                                        setBookDetail = {setBookDetailModal} 
+                                    />
                                 </Grid>
                             )
                         })
@@ -166,7 +181,12 @@ const Catalogue = () => {
 
             {
                 bookDetailModal.open &&
-                <BookDetailModal modal={bookDetailModal} setModal={setBookDetailModal}/>
+                <BookDetailModal 
+                    modal={bookDetailModal} 
+                    setModal={setBookDetailModal} 
+                    contract={contract}
+                    currentUser={currentUser}
+                />
             }
 
         </Container>

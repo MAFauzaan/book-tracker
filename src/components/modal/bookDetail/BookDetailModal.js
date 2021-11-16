@@ -6,17 +6,14 @@ import {
     Typography, 
     FormControl, Select, 
     MenuItem, 
-    ListItemText,
-    OutlinedInput 
+    Button
 } from '@mui/material';
 
 import "./BookDetailModal.scss";
 
 
-const BookDetailModal = ({modal, setModal}) => {
-
+const BookDetailModal = ({modal, setModal, contract, currentUser}) => {
     const { data } = modal;
-
 
     const imageUrl = `https://covers.openlibrary.org/b/isbn/${data.book_details[0].primary_isbn10}-L.jpg`;
     const bookDetails = data.book_details[0];
@@ -24,26 +21,44 @@ const BookDetailModal = ({modal, setModal}) => {
     const author = bookDetails.author;
     const description = bookDetails.description;
 
-
+    
     const Backdrop = () => {
         return <div className="backdrop" onClick={() => setModal({...modal, open: false})} />
     }
-
+    
     const DetailModal = () => {
-
-        const userOptions = [ 'Reading List', 'Read', 'Finished'];
-
+        
+        const userOptions = [ 'List', 'Read', 'Finished'];
+        
         const [ userOption, setUserOption ] = useState('');
-        console.log(userOption)
+        
+        const bookData = {
+            "book": {
+                "account_id": currentUser.accountId,
+                "title": bookDetails.title,
+                "description": bookDetails.description,
+                "status": userOption,
+                "image": imageUrl
+            }
+        }
+        
+        console.log(bookData)
+
+        const onSubmit = (e) => {
+
+            e.preventDefault();
+
+            contract.add_book(bookData);
+        }
 
         return (
             <Paper className="overviewModal">
                 <Grid container sx={{width: '100%'}}>
-                    <Grid xs={12} sm={12} md={4} className="imageContainer">
+                    <Grid item xs={12} sm={12} md={4} className="imageContainer">
                         <img src={imageUrl} alt={title} />
                     </Grid>
 
-                    <Grid xs={12} sm={12} md={8} className="bookContent">
+                    <Grid item xs={12} sm={12} md={8} className="bookContent">
                         <Typography className="directory">{`> ${data.display_name} > ${title}`}</Typography>
                         <Typography className="author">{author}</Typography>
                         <Typography variant="h4">{title}</Typography>
@@ -53,10 +68,10 @@ const BookDetailModal = ({modal, setModal}) => {
                         <Typography>Publisher: {bookDetails.publisher}</Typography>
                         <Typography>Publish Date: {data.published_date}</Typography>
                         <Typography>Best seller date: {data.bestsellers_date}</Typography>
-
+                        <Typography>Isbn: {bookDetails.primary_isbn10}</Typography>
                         <div className="userAction">
-                        <Typography>User options:</Typography>
                         <FormControl fullWidth>
+                            <Typography>Add to: </Typography>
                             <Select
                                 labelId="demo-simple-select-label"
                                 id="demo-simple-select"
@@ -66,10 +81,18 @@ const BookDetailModal = ({modal, setModal}) => {
                             >
                            {
                                userOptions.map((opt, idx) => (
-                                   <MenuItem value={opt}>{opt}</MenuItem>
+                                   <MenuItem value={opt} key={idx}>{opt}</MenuItem>
                                ))
                            }
                             </Select>
+                            <Button 
+                                color="secondary"
+                                variant="contained"  
+                                sx={{width: '100px', marginTop: '30px', color: '#ffff'}}
+                                onClick={onSubmit}
+                            >
+                                Save
+                            </Button>
                         </FormControl>
                         </div>
                     </Grid>

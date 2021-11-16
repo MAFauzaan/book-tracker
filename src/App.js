@@ -1,6 +1,6 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect } from 'react';
 import { Routes, Route, useNavigate } from "react-router-dom";
-import { useDispatch, useSelector } from 'react-redux';
+import { useDispatch } from 'react-redux';
 import axios from 'axios'
 
 import { getList } from './store/actions/booksActions';
@@ -10,11 +10,10 @@ import Catalogue from './pages/Catalogue/Catalogue';
 const Library = React.lazy(() => import("./pages/Library/Library"));
 const LoginUI = React.lazy(() => import("./pages/Login/Login"));
 
-const App = () => {
+const App = ({ contract, currentUser, nearConfig, wallet }) => {
 
     const navigate = useNavigate();
     const dispatch = useDispatch();
-    const isLoggedIn = useSelector(state => state.user.user);
 
     useEffect(() => {
         axios.get('https://api.nytimes.com/svc/books/v3/lists/names.json?api-key=zf1MM73R7FJ2vPQgL25F00XEAbY4ZtJQ')
@@ -27,14 +26,16 @@ const App = () => {
         });
     }, [dispatch, navigate]);
 
+    console.log(currentUser)
+
     return (                                                                                                                                                                                                                                
-        <Layout>
+        <Layout wallet={wallet}> 
             <Routes>
-                <Route path="/" element={<Catalogue />}/>
+                <Route path="/" element={<Catalogue contract={contract} currentUser={currentUser} />}/>
 
                 <Route exact path="/login" element={
                         <React.Suspense fallback={<div>Loading Page.....</div>}>
-                            <LoginUI />
+                            <LoginUI nearConfig={nearConfig} wallet={wallet} currentUser={currentUser}/>
                         </React.Suspense>
                 }/>
 

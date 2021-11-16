@@ -1,5 +1,18 @@
 .container {
-    h1 {
-        
+
+    .container__headerComponent {
+        h1 {
+            margin-bottom: 50px;
+        }
+
+        .headerComponent__buttonGroup {
+            text-align: center;
+        }
+
+        hr {
+            width: 200px;
+            border: 2px solid #a1a1a1;
+            border-radius: 20px;
+        }
     }
 }

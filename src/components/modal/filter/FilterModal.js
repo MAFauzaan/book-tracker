@@ -36,8 +36,8 @@ const DescModal = ({ setFilter, setModal}) => {
                                             booksList.map(book => {
                                                 const firstLetter = book.charAt(0)
                                                 
-                                            return item === firstLetter && 
-                                            <p style={{margin: '5px 0'}} onClick={() => filterHandler(book)}>{book}<br/></p>
+                                                return item === firstLetter && 
+                                                <p style={{margin: '5px 0'}} onClick={() => filterHandler(book)}>{book}<br/></p>
                                             })
                                         }
                                     </Grid>

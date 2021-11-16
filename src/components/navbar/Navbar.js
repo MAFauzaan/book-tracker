@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { Link, NavLink } from 'react-router-dom';
+import { Link, NavLink, useNavigate} from 'react-router-dom';
 import { AppBar, IconButton, Toolbar, Drawer, Button, Menu, MenuItem, Fade } from '@mui/material';
 import { Menu as MenuIcon } from '@mui/icons-material';
 import { useDispatch, useSelector } from 'react-redux';
@@ -11,8 +11,9 @@ import Logo from '../../assets/LogoHeader.png';
 
 import './Navbar.scss';
 
-const Navbar = () => {
+const Navbar = ({wallet}) => {
 
+    const navigate = useNavigate();
     const isLoggedIn = useSelector(state => state.user.isLoggedIn);
     const dispatch = useDispatch();
     const user = useSelector(state => state.user.user);
@@ -71,7 +72,11 @@ const Navbar = () => {
     }
 
     const handleLogout = () => {
-        return dispatch(userLogout())
+        wallet.signOut();
+        dispatch(userLogout())
+
+        setTimeout(() => {navigate('/')}, 1000);
+        window.location.reload();
     }
 
     const LinksGroup = () => {
@@ -159,7 +164,7 @@ const Navbar = () => {
                             onClose={handleClose}
                             TransitionComponent={Fade}
                         >
-                            <MenuItem onClick={handleClose}>{user.username}</MenuItem>
+                            <MenuItem onClick={handleClose}>{user.accountId}</MenuItem>
                             <MenuItem onClick={handleLogout}>Log out</MenuItem>
                         </Menu>
                     </>

@@ -1,3 +1,4 @@
+import { useEffect } from "react";
 import { Paper, Container, Grid, Button} from "@mui/material";
 import { useDispatch } from 'react-redux';
 import { useNavigate  } from 'react-router-dom';
@@ -8,15 +9,24 @@ import Logo from "../../assets/LogoHeader.png";
 
 import "./Login.scss";
 
-const Login = () => {                 
+const Login = ({ nearConfig, wallet, currentUser }) => {                 
     const navigate = useNavigate();
     const dispatch = useDispatch();
 
-    const userLoginHandler = () => {
-        dispatch(setUserLoginData({id: 1, username: 'test'}));
-        navigate('/');
-    }
+    useEffect(() => {
+        if(wallet.isSignedIn()) {
+            dispatch(setUserLoginData({...currentUser}));
+            navigate('/');
+        }
+    }, [wallet, dispatch, currentUser, navigate]);
 
+    const userLoginHandler = () => {
+        wallet.requestSignIn(
+            nearConfig.contractName,
+            'BookTracker'
+        );
+    }
+    console.log(currentUser)
     return (  
             <Container>
                 <Grid container className="container">
