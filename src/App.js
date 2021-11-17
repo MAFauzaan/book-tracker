@@ -1,7 +1,7 @@
 import React, { useEffect } from 'react';
 import { Routes, Route, useNavigate } from "react-router-dom";
 import { useDispatch } from 'react-redux';
-import axios from 'axios'
+import axios from 'axios';
 
 import { getList } from './store/actions/booksActions';
 import Layout from "./layout/Layout";
@@ -26,10 +26,10 @@ const App = ({ contract, currentUser, nearConfig, wallet }) => {
         });
     }, [dispatch, navigate]);
 
-    console.log(currentUser)
+    console.log(currentUser);
 
     return (                                                                                                                                                                                                                                
-        <Layout wallet={wallet}> 
+        <Layout wallet={wallet} currentUser={currentUser}> 
             <Routes>
                 <Route path="/" element={<Catalogue contract={contract} currentUser={currentUser} />}/>
 
@@ -41,7 +41,7 @@ const App = ({ contract, currentUser, nearConfig, wallet }) => {
 
                 <Route path="/library" element={
                         <React.Suspense fallback={<div>Loading Page.....</div>}>
-                            <Library />
+                            <Library contract={contract} currentUser={currentUser} wallet={wallet}/>
                         </React.Suspense>
                     }/>
                 </Routes>

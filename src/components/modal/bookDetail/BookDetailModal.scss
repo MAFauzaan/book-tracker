@@ -58,10 +58,13 @@
             float: left;
         }
 
-        .userAction {
-            margin-top: 50px;
-        }
+    }
 
+    
+    .alert {
+        margin-top: 50px;
+        width: 100%;
+        z-index: 1000;
     }
 
     @include phoneUp {

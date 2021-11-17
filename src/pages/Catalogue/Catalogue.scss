@@ -46,7 +46,7 @@
             }
         }
         
-        .booksSection__hardcoverFiction {
+        .bookContainer__swiper {
             display: flex;
             flex-wrap: wrap;
             justify-content: space-between;
@@ -58,6 +58,13 @@
                 place-content: center;
             }
 
+            .swiperSlide {
+                
+                @include phoneUp {
+                    display: flex;
+                    place-content: center;
+                }
+            }
         }
     }
 

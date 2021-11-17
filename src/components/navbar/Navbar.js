@@ -2,21 +2,19 @@ import { useEffect, useState } from 'react';
 import { Link, NavLink, useNavigate} from 'react-router-dom';
 import { AppBar, IconButton, Toolbar, Drawer, Button, Menu, MenuItem, Fade } from '@mui/material';
 import { Menu as MenuIcon } from '@mui/icons-material';
-import { useDispatch, useSelector } from 'react-redux';
-import { userLogout } from '../../store/actions/userActions';
 
 import AccountCircleIcon from '@mui/icons-material/AccountCircle';
 
-import Logo from '../../assets/LogoHeader.png';
+import Logo1 from '../../assets/LogoHeader.png';
+import Icon from '../../assets/icon.png';
 
 import './Navbar.scss';
 
-const Navbar = ({wallet}) => {
+const Navbar = ({wallet, currentUser}) => {
+
+    const user = currentUser;
 
     const navigate = useNavigate();
-    const isLoggedIn = useSelector(state => state.user.isLoggedIn);
-    const dispatch = useDispatch();
-    const user = useSelector(state => state.user.user);
     
     const links = [
         {
@@ -27,21 +25,21 @@ const Navbar = ({wallet}) => {
             label: 'Library',
             to: '/library'
         }
-    ]
+    ];
 
     const conditionalLink = [
         {
             label: 'Home',
             to: '/'
         }
-    ]
+    ];
 
     const [ mobile, setMobile ] = useState({
         isMobile: false,
         drawer: false
-    })
+    });
     
-    const {  isMobile, drawer } = mobile
+    const {  isMobile, drawer } = mobile;
 
     const [ anchorEl, setAnchorEl ] = useState(null);
     const open = Boolean(anchorEl);
@@ -52,36 +50,36 @@ const Navbar = ({wallet}) => {
                 setMobile((prevState) =>  ({...prevState, isMobile: true}))
                 :
                 setMobile((prevState) => ({...prevState, isMobile: false}))
-        }
+        };
 
-        setResponsiveness()
+        setResponsiveness();
+
 
         window.addEventListener("resize",  () => setResponsiveness())
     }, []);
 
     const openDrawer = () => {
-        return setMobile((prevState) => ({...prevState, drawer: true}))
-    }
+        return setMobile((prevState) => ({...prevState, drawer: true}));
+    };
 
     const closeDrawer = () => {
-        return setMobile((prevState) => ({...prevState, drawer: false}))
-    }
+        return setMobile((prevState) => ({...prevState, drawer: false}));
+    };
 
     const handleClose = () => {
-        setAnchorEl(null)
+        setAnchorEl(null);
     }
 
     const handleLogout = () => {
         wallet.signOut();
-        dispatch(userLogout())
 
-        setTimeout(() => {navigate('/')}, 1000);
+        navigate('/');
         window.location.reload();
     }
 
     const LinksGroup = () => {
         let link;
-        isLoggedIn ? link = links : link=conditionalLink
+        user ? link = links : link=conditionalLink
 
         return(
             link.map((link, index) => {
@@ -134,7 +132,12 @@ const Navbar = ({wallet}) => {
 
                 <div className="toolbar_leftContainer">
                     <NavLink to='/'  className="toolbar__logoContainer">
-                        <img src={Logo} alt="Logo" />
+                        {
+                            isMobile ?
+                            <img src={Icon} alt="Logo" />
+                            :
+                            <img src={Logo1} alt="Logo" />
+                        }
                     </NavLink>
                 {
                     !isMobile &&
@@ -145,7 +148,7 @@ const Navbar = ({wallet}) => {
                 </div>
 
                 {
-                    !isLoggedIn ?
+                    !user ?
                     <Link to="/login" style={{color: '#2C2C2C', textDecoration: 'none'}}>
                         <Button>Log in</Button>
                     </Link>

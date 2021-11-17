@@ -7,18 +7,18 @@ import "./FilterModal.scss";
 const DescModal = ({ setFilter, setModal}) => {
 
     const backdropHandler = () => {
-        return setModal(true)
-    }
+        return setModal(true);
+    };
 
     const filterHandler = (title) => {
-        window.scrollTo(0, 0)
-        setFilter(title)
-        setModal(false)
-    }
+        window.scrollTo(0, 0);
+        setFilter(title);
+        setModal(false);
+    };
 
     const Backdrop = () => {
         return <div className="backdrop" onClick={backdropHandler} />
-    }
+    };
 
     const ModalOverlay = () => {
         const alphabet = [...'ABCDEFGHIJKLMNOPQRSTUVWXYZ'];

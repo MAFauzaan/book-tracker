@@ -13,11 +13,11 @@ const Layout = (props) => {
         <>
           <ThemeProvider theme={theme}>
                 <div className="container">
-                    <Navbar wallet={props.wallet} />  
+                    <Navbar wallet={props.wallet} currentUser={props.currentUser}/>  
                         <main className="content" style={{minHeight: '400px'}}>
                             {props.children}
                         </main>
-                    <Footer />
+                    <Footer currentUser={props.currentUser} />
                 </div>
             </ThemeProvider>
         </>

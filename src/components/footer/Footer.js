@@ -1,14 +1,13 @@
 import { Button, Container, Grid, TextField } from "@mui/material";
 import { Link } from "react-router-dom";
-import { useSelector } from "react-redux";
 
-import Logo from '../../assets/Logo1.png'
+import Logo from '../../assets/Logo1.png';
 
-import "./Footer.scss"
+import "./Footer.scss";
 
-const Footer = () => {
+const Footer = ({currentUser}) => {
 
-    const user = useSelector(state => state.user);
+    const user = currentUser;
 
     return (  
         <Container maxWidth={false} className="footerContainer">
@@ -24,7 +23,7 @@ const Footer = () => {
                             <Link to="/">Homepage</Link>
                         </li>
                         {
-                            user.isLoggedIn &&
+                            user &&
                         <li>
                             <Link to="/library">Library</Link>
                         </li>

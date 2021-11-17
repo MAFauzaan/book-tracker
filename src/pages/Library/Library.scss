@@ -7,12 +7,26 @@
 
         .headerComponent__buttonGroup {
             text-align: center;
+
+            button {
+                margin: 0 10px;
+                &:active {
+                    background-color: black;
+                }
+            }
         }
 
         hr {
-            width: 200px;
+            width: 300px;
             border: 2px solid #a1a1a1;
             border-radius: 20px;
+            margin-bottom: 100px;
         }
+    }
+
+    .container__bookContainer {
+        display: flex;
+        place-content: center;
+        column-gap: 30px;
     }
 }

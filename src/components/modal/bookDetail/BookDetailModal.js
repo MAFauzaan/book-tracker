@@ -9,6 +9,7 @@ import {
     Button
 } from '@mui/material';
 
+
 import "./BookDetailModal.scss";
 
 
@@ -20,7 +21,6 @@ const BookDetailModal = ({modal, setModal, contract, currentUser}) => {
     const title = bookDetails.title;
     const author = bookDetails.author;
     const description = bookDetails.description;
-
     
     const Backdrop = () => {
         return <div className="backdrop" onClick={() => setModal({...modal, open: false})} />
@@ -49,7 +49,10 @@ const BookDetailModal = ({modal, setModal, contract, currentUser}) => {
             e.preventDefault();
 
             contract.add_book(bookData);
+
+            setTimeout(() => {window.location.reload();}, 7000);
         }
+
 
         return (
             <Paper className="overviewModal">
@@ -70,7 +73,7 @@ const BookDetailModal = ({modal, setModal, contract, currentUser}) => {
                         <Typography>Best seller date: {data.bestsellers_date}</Typography>
                         <Typography>Isbn: {bookDetails.primary_isbn10}</Typography>
                         <div className="userAction">
-                        <FormControl fullWidth>
+                        <FormControl fullWidth sx={{marginTop: '50px'}}>
                             <Typography>Add to: </Typography>
                             <Select
                                 labelId="demo-simple-select-label"

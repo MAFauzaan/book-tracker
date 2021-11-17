@@ -9,16 +9,16 @@ import { getBooks, getSpecifiedBooks } from '../../store/actions/booksActions'
 
 import FilterAltIcon from '@mui/icons-material/FilterAlt';
 import CardUI from "../../components/card/Card";
-import NytLogo from "../../assets/nyt.svg"
+import NytLogo from "../../assets/nyt.svg";
 
-import FilterModal from "../../components/modal/filter/FilterModal"
+import FilterModal from "../../components/modal/filter/FilterModal";
 import BookDetailModal from "../../components/modal/bookDetail/BookDetailModal";
 
 import 'swiper/swiper.scss'; 
-import "swiper/modules/scrollbar/scrollbar.scss"
-import "./Catalogue.scss"
+import "swiper/modules/scrollbar/scrollbar.scss";
+import "./Catalogue.scss";
 
-SwiperCore.use([Scrollbar])
+SwiperCore.use([Scrollbar]);
 
 const Catalogue = ({contract, currentUser}) => {
 
@@ -26,15 +26,21 @@ const Catalogue = ({contract, currentUser}) => {
     const books = useSelector(state => state.books.homeDisplayedBooks);
     const specifiedBooks = useSelector(state => state.books.fetchedBooks);
 
+
     const [ filter, setFilter ] = useState('');
     const [ filterModal, setFilterModal ] = useState(false);
     const [ bookDetailModal, setBookDetailModal ] = useState({
         data: {},
         open: false
-    })
-    
-    const { data, open } = bookDetailModal
+    });
+    const [ view, setView ] = useState({
+        mobile: false,
+        tabletPortrait: false,
+        tabletLandscape: false,
+        laptop: true
+    });
 
+    
     const displayItems = ['Hardcover Fiction', 'Young Adult Hardcover', 'Business Books'];    
 
     useEffect(() => {
@@ -60,7 +66,7 @@ const Catalogue = ({contract, currentUser}) => {
             }).catch((err) => {
                 console.log(err)
             });
-        }
+        };
         
         if(filter){
             axios.get(`https://api.nytimes.com/svc/books/v3/lists.json?list=${filter}&api-key=zf1MM73R7FJ2vPQgL25F00XEAbY4ZtJQ`)
@@ -70,10 +76,51 @@ const Catalogue = ({contract, currentUser}) => {
             }).catch((err) => {
                 console.log(err)
             });
-        }
+        };
 
 
     }, [dispatch, filter, books]);
+
+    useEffect(() => {
+        const setResponsiveness = () => {
+            return window.innerWidth < 600 ?
+                setView({
+                    mobile: true,
+                    tabletPortrait: false,
+                    tabletLandscape: false,
+                    laptop: false
+                })
+                :
+                (window.innerWidth > 600 && window.innerWidth < 900) ?
+                setView({
+                    mobile: false,
+                    tabletPortrait: true,
+                    tabletLandscape: false,
+                    laptop: false
+                })
+                :
+                (window.innerWidth > 900 && window.innerWidth < 1200) ?
+                setView({
+                    mobile: false,
+                    tabletPortrait: false,
+                    tabletLandscape: true,
+                    laptop: false
+                })
+                :
+                setView({
+                    mobile: false,
+                    tabletPortrait: false,
+                    tabletLandscape: false,
+                    laptop: true
+                })
+        };
+
+        setResponsiveness();
+
+
+        window.addEventListener("resize",  () => setResponsiveness())
+
+    }, []);
     
     return (  
         <Container className="container">
@@ -105,24 +152,24 @@ const Catalogue = ({contract, currentUser}) => {
                                     <Swiper 
                                         scrollbar={{"draggable": true, "hide": true}}
                                         slidesPerView={
-                                            window.innerWidth < 600 ?
+                                            view.mobile ?
+                                            1
+                                            :
+                                            view.tabletPortrait ?
                                             2
                                             :
-                                            window.innerWidth < 900 ?
-                                            2
-                                            :
-                                            window.innerWidth < 1200 ?
+                                            view.tabletLandscape ?
                                             3
                                             :
                                             4
                                         }
                                         spaceBetween={
-                                            window.innerWidth < 600 ?
+                                            view.mobile ?
                                             80
                                             :
                                             0
                                         }
-                                        className="booksSection__hardcoverFiction"
+                                        className="bookContainer__swiper"
                                         centeredSlides={
                                             window.innerWidth < 600 ?
                                            true
@@ -135,7 +182,7 @@ const Catalogue = ({contract, currentUser}) => {
                                             const bookCover = book.book_details[0].primary_isbn10;
                 
                                             return (
-                                                <SwiperSlide key={bookCover}>
+                                                <SwiperSlide key={bookCover} className="swiperSlide">
                                                     <CardUI 
                                                         key={bookCover}
                                                         bookData = {book}

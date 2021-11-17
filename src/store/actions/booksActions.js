@@ -1,6 +1,13 @@
 import * as types from '../types';
 
 
+export const getList = (list) => {
+    return {
+        type: types.GET_LIST,
+        list
+    };
+};
+
 export const getBooks = (books) => {
     return {
         type: types.GET_BOOKS,
@@ -15,9 +22,13 @@ export const getSpecifiedBooks = (books) => {
     };
 };
 
-export const getList = (list) => {
+
+export const getLibraryBooks = (books) => {
     return {
-        type: types.GET_LIST,
-        list
+        type: types.GET_LIBRARY_BOOKS,
+        books
     };
 };
+
+
+

@@ -25,8 +25,8 @@ const store = createStore(reducers, /* preloadedState, */
         currentUser = {
             accountId: walletConnection.getAccountId(),
             balance: (await walletConnection.account().state()).amount
-        }
-    }
+        };
+    };
 
     const contract = await new nearAPI.Contract(
         walletConnection.account(),
@@ -36,10 +36,10 @@ const store = createStore(reducers, /* preloadedState, */
             changeMethods: ['add_book', 'update_book', 'delete_book' ],
             sender: walletConnection.getAccountId()
         }
-    )
+    );
 
-    return { contract, currentUser, nearConfig, walletConnection }
-}
+    return { contract, currentUser, nearConfig, walletConnection };
+};
 
 window.nearInitPromise = initContract().then(({ contract, currentUser, nearConfig, walletConnection }) => {
     ReactDOM.render(                                                
@@ -54,5 +54,5 @@ window.nearInitPromise = initContract().then(({ contract, currentUser, nearConfi
             </BrowserRouter>
         </Provider>,
         document.getElementById('root')
-    )
-})
+    );
+});
