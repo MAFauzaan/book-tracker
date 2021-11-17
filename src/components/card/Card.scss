@@ -1,0 +1,12 @@
+.card {
+    width: 230px;
+    height: 400px;
+    padding-bottom: 10px;
+    box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2) !important; 
+
+    &:hover {
+        cursor: pointer;
+        box-shadow: 10px 20px 20px 5px rgba(0, 0, 0, 0.22) !important ;
+        transform: translate3d(0px, -1px, 0px);      
+    }
+} 

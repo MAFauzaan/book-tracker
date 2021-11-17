@@ -1,0 +1,50 @@
+.loginFormContainer {
+    height: 700px;
+    width: 100%;
+    display: flex;
+
+    .logoTabletUp {
+        padding: 20px;
+        width: 200px;
+    }
+
+    .logoPhone {
+        height: 80px;
+        width: 200px;
+    }
+
+    .imgContainer {
+        flex: 50%;
+        width: 50%;
+        padding-right: 50px;
+        background-color: #F29D16;
+        background-image: url("../../assets/personReading.jpg");
+        background-repeat: no-repeat;
+        background-position: center;
+    }
+    .formContainer {
+        flex: 50%;
+        padding: 50px;
+        text-align: center;
+        display: flex;
+        flex-direction: column;
+        place-items: center;
+        place-content: center;
+        
+        h2 {
+            font-size: 36px;
+            margin-top: 20px;
+            margin-bottom: 40px;
+        }
+
+        button {
+            height: 60px;
+            width: 250px;
+            font-size: 24px;
+        }
+    }
+}
+
+.nearLogo {
+    width: 70px;
+}

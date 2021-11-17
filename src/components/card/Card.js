@@ -1,18 +1,25 @@
-import { Card, CardContent, CardMedia } from "@mui/material";
+import { Card, CardContent, CardMedia, Typography } from "@mui/material";
 
-const CardUI = (props) => {
+import "./Card.scss"
+
+const CardUI = ({bookData, setBookDetail}) => {
+    const bookCover = bookData.book_details[0].primary_isbn10;
+
     return ( 
-        <Card>
-            <CardMedia 
-                component="image"
-                alt={props.name}
-                height="140"
-                image={props.src}
-            />
-            <CardContent>
-                {props.name}
-            </CardContent>
-        </Card>
+            <Card className="card" onClick={() => setBookDetail({data: bookData, open: true})}>
+                <CardMedia 
+                    component="img"
+                    alt={bookData.book_details[0].title}
+                    height="320"
+                    image={`https://covers.openlibrary.org/b/isbn/${bookCover}-L.jpg` || <p>Error</p>}
+                />
+                <CardContent sx={{paddingTop: '5px'}}>
+                    <Typography variant="body2" sx={{fontSize: '12px', color: '#6d6d6d', marginBottom: '10px'}}>
+                        {bookData.book_details[0].author}
+                    </Typography>
+                    <Typography variant="body2">{bookData.book_details[0].title}</Typography>
+                </CardContent>
+            </Card>
     );
 }
  

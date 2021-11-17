@@ -6,6 +6,12 @@
     min-height: 100vh;
     flex-direction: column;
     justify-content: space-between;
+
+    .content {
+        min-height: 400px;
+        margin-top: 50px;
+        margin-bottom: 100px;
+    }
 }
 
   h1 {
@@ -16,7 +22,6 @@
   body {
       font-family: 'Nunito Sans', sans-serif;
       color: #383838;
-      margin-bottom: 400px;
   
       h3 {
           color: #F29D16;

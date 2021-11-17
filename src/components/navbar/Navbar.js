@@ -1,35 +1,48 @@
 import { useEffect, useState } from 'react';
-import { NavLink } from 'react-router-dom';
-import { AppBar, IconButton, Toolbar, Drawer } from '@mui/material';
-import { Menu } from '@mui/icons-material';
+import { Link, NavLink, useNavigate} from 'react-router-dom';
+import { AppBar, IconButton, Toolbar, Drawer, Button, Menu, MenuItem, Fade } from '@mui/material';
+import { Menu as MenuIcon } from '@mui/icons-material';
 
 import AccountCircleIcon from '@mui/icons-material/AccountCircle';
 
-import Logo from '../../assets/LogoHeader.png';
+import Logo1 from '../../assets/LogoHeader.png';
+import Icon from '../../assets/icon.png';
 
 import './Navbar.scss';
 
-const Navbar = () => {
+const Navbar = ({wallet, currentUser}) => {
+
+    const user = currentUser;
+
+    const navigate = useNavigate();
     
     const links = [
         {
-            label: 'Catalogue',
+            label: 'Home',
             to: '/'
         },
         {
             label: 'Library',
             to: '/library'
         }
-    ]
+    ];
+
+    const conditionalLink = [
+        {
+            label: 'Home',
+            to: '/'
+        }
+    ];
 
     const [ mobile, setMobile ] = useState({
         isMobile: false,
         drawer: false
-    })
+    });
     
-    const {  isMobile, drawer } = mobile
+    const {  isMobile, drawer } = mobile;
 
-    console.log(mobile)
+    const [ anchorEl, setAnchorEl ] = useState(null);
+    const open = Boolean(anchorEl);
 
     useEffect(() => {
         const setResponsiveness = () => {
@@ -37,26 +50,42 @@ const Navbar = () => {
                 setMobile((prevState) =>  ({...prevState, isMobile: true}))
                 :
                 setMobile((prevState) => ({...prevState, isMobile: false}))
-        }
+        };
 
-        setResponsiveness()
+        setResponsiveness();
+
 
         window.addEventListener("resize",  () => setResponsiveness())
     }, []);
 
     const openDrawer = () => {
-        return setMobile((prevState) => ({...prevState, drawer: true}))
-    }
+        return setMobile((prevState) => ({...prevState, drawer: true}));
+    };
 
     const closeDrawer = () => {
-        return setMobile((prevState) => ({...prevState, drawer: false}))
+        return setMobile((prevState) => ({...prevState, drawer: false}));
+    };
+
+    const handleClose = () => {
+        setAnchorEl(null);
+    }
+
+    const handleLogout = () => {
+        wallet.signOut();
+
+        navigate('/');
+        window.location.reload();
     }
 
     const LinksGroup = () => {
+        let link;
+        user ? link = links : link=conditionalLink
+
         return(
-            links.map(link => {
+            link.map((link, index) => {
                 return (
                     <NavLink 
+                        key={index}
                         to={link.to} 
                         style={({ isActive }) =>
                         (isActive && !isMobile) ? 
@@ -77,13 +106,15 @@ const Navbar = () => {
     }
 
     return (  
+        <>
+        <div style={{backgroundColor: 'rgb(242, 157, 22)' , height: '25px', width: '100%'}}/>
         <AppBar elevation={0} position="static" className="navbar" color="primary">
             <Toolbar className="navbar__toolbar">
                 {
                     isMobile &&
                     <>
                         <IconButton {...{edge: 'start', 'aria-label': 'menu', 'aria-haspopup': 'true', onClick: openDrawer}}>
-                            <Menu />
+                            <MenuIcon />
                         </IconButton>
 
                         {
@@ -101,7 +132,12 @@ const Navbar = () => {
 
                 <div className="toolbar_leftContainer">
                     <NavLink to='/'  className="toolbar__logoContainer">
-                        <img src={Logo} alt="Logo" />
+                        {
+                            isMobile ?
+                            <img src={Icon} alt="Logo" />
+                            :
+                            <img src={Logo1} alt="Logo" />
+                        }
                     </NavLink>
                 {
                     !isMobile &&
@@ -111,12 +147,35 @@ const Navbar = () => {
                 }
                 </div>
 
-                <IconButton {...{edge: 'end', 'aria-label': 'menu', 'aria-haspopup': 'true', onClick: openDrawer}}>
-                    <AccountCircleIcon fontSize='large' />
-                </IconButton>
+                {
+                    !user ?
+                    <Link to="/login" style={{color: '#2C2C2C', textDecoration: 'none'}}>
+                        <Button>Log in</Button>
+                    </Link>
+                    :
+                    <>
+                        <IconButton {...{edge: 'end', 'aria-label': 'menu', 'aria-haspopup': 'true', onClick: openDrawer}} onClick={(e) => setAnchorEl(e.currentTarget)}>
+                            <AccountCircleIcon fontSize='large'/>
+                        </IconButton>
+                        <Menu
+                            id="fade-menu"
+                            MenuListProps={{
+                            'aria-labelledby': 'fade-button',
+                            }}
+                            anchorEl={anchorEl}
+                            open={open}
+                            onClose={handleClose}
+                            TransitionComponent={Fade}
+                        >
+                            <MenuItem onClick={handleClose}>{user.accountId}</MenuItem>
+                            <MenuItem onClick={handleLogout}>Log out</MenuItem>
+                        </Menu>
+                    </>
+                }
 
             </Toolbar>
         </AppBar>
+        </>
     );
 }
  

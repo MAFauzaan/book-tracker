@@ -1,0 +1,89 @@
+@import "../../../styles/mixins.scss";
+
+.backdrop {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100vh;
+    z-index: 10;
+    background: rgba(0, 0, 0, 0.75);
+}
+
+.overviewModal {
+    background-color: #ffff;
+    height: 60%;
+    min-height: 500px;
+    max-height: 550px;
+    padding: 20px;
+    position: fixed;
+    display: flex;
+    top: 50%;
+    left: 50%;
+    z-index: 100;
+    transform: translate(-50%, -50%);
+
+    .imageContainer {
+        display: flex;
+        place-content: center;
+        min-height: 400px;
+
+        img {
+            width: 250px;
+            position: fixed;
+        }
+    }
+
+    .bookContent {
+        padding: 40px;
+
+        .directory {
+            color: #2c2c2c;
+        }
+
+        .author {
+            margin-top: 20px;
+        }
+
+        p {
+            color: #6d6d6d;
+
+            &:hover {
+                cursor: default;
+            }
+        }
+
+        hr {
+            width: 75%;
+            float: left;
+        }
+
+    }
+
+    
+    .alert {
+        margin-top: 50px;
+        width: 100%;
+        z-index: 1000;
+    }
+
+    @include phoneUp {
+        width: 100%;
+    }
+
+    @include tabletPortraitUp {
+        width: 80%;
+    }
+
+    @include tabletLandscapeUp {
+        width: 80%;
+    }
+
+    @include laptopUp {
+        width: 60%;
+    }
+
+    @include desktopUp {
+        width: 50%;
+    }
+}
