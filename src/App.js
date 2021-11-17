@@ -3,7 +3,7 @@ import { Routes, Route, useNavigate } from "react-router-dom";
 import { useDispatch } from 'react-redux';
 import axios from 'axios';
 
-import { getList } from './store/actions/booksActions';
+import { getList, getLibraryBooks } from './store/actions/booksActions';
 import Layout from "./layout/Layout";
 import Catalogue from './pages/Catalogue/Catalogue';
 
@@ -14,6 +14,7 @@ const App = ({ contract, currentUser, nearConfig, wallet }) => {
 
     const navigate = useNavigate();
     const dispatch = useDispatch();
+    const user = currentUser || 'user';
 
     useEffect(() => {
         axios.get('https://api.nytimes.com/svc/books/v3/lists/names.json?api-key=zf1MM73R7FJ2vPQgL25F00XEAbY4ZtJQ')
@@ -25,6 +26,19 @@ const App = ({ contract, currentUser, nearConfig, wallet }) => {
             });
         });
     }, [dispatch, navigate]);
+
+    useEffect(() => {
+        if (wallet.isSignedIn()) {
+            contract.get_books({"account_id": `${user.accountId}`, "skip":0, "limit": 10})
+            .then((result) => {
+                console.log(result);
+                dispatch(getLibraryBooks(result));
+            }).catch((err) => {
+                console.log(err)
+            });
+        };
+    }, [contract, user.accountId, wallet, dispatch]);
+
 
     console.log(currentUser);
 

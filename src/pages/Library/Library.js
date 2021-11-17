@@ -14,10 +14,13 @@ import LibBookDetailModal from '../../components/modal/bookDetail/LibBookDetailM
 import "./Library.scss";
 
 const Library = ({ contract, wallet, currentUser  }) => {
-
     const dispatch = useDispatch();
     const libBooks = useSelector(state => state.books.libraryBooks);
-    const user = currentUser;
+    const user = currentUser || 'none';
+
+    if ( user === 'none' ) {
+        window.location.replace("/");
+    };
 
     const [ defaultView, setDefaultView ] = useState('List');
     const [ bookDetail, setBookDetail ] = useState({

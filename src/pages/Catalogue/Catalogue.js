@@ -26,7 +26,6 @@ const Catalogue = ({contract, currentUser}) => {
     const books = useSelector(state => state.books.homeDisplayedBooks);
     const specifiedBooks = useSelector(state => state.books.fetchedBooks);
 
-
     const [ filter, setFilter ] = useState('');
     const [ filterModal, setFilterModal ] = useState(false);
     const [ bookDetailModal, setBookDetailModal ] = useState({

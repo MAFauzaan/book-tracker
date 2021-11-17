@@ -44,6 +44,17 @@ const LibBookDetailModal = ({modal, setModal, contract }) => {
         
         console.log(bookData);
 
+        
+        
+        const onDelete = (e) => {
+            e.preventDefault();
+            setAlert(prevState => ({...prevState, showAlert: true}))
+        }
+        
+        const handleClose = () => {
+            setAlert(prevState => ({...prevState, showAlert: false}))
+        }
+        
         const onSubmit = (e) => {
             e.preventDefault();
             contract.update_book(bookData);
@@ -52,16 +63,6 @@ const LibBookDetailModal = ({modal, setModal, contract }) => {
 
             setTimeout(() => {window.location.reload();}, 10000);
         };
-
-        
-        const onDelete = (e) => {
-            e.preventDefault();
-            setAlert(prevState => ({...prevState, showAlert: true}))
-        }
-
-        const handleClose = () => {
-            setAlert(prevState => ({...prevState, showAlert: false}))
-        }
 
         const deleteBook = (e) => {
             e.preventDefault();
@@ -133,10 +134,10 @@ const LibBookDetailModal = ({modal, setModal, contract }) => {
                                 </Alert>
                                 :
                                 (alert.showAlert && alert.success) ?
-                                <Alert severity="success" className="alert">Book is being deleted, wait for 10 seconds! If the book hasn't updated yet, please refresh the page.</Alert>
+                                <Alert severity="success" className="alert">Book is being deleted, wait until the page refreshes itself. If the book hasn't updated yet, please refresh the page.</Alert>
                                 :
                                 saveAlert ?
-                                <Alert severity="success" className="alert">Book is being updated, wait for 10 seconds! If the book hasn't deleted yet, please refresh the page.</Alert>
+                                <Alert severity="success" className="alert">Book is being updated, wait until the page refreshes itself. If the book hasn't deleted yet, please refresh the page.</Alert>
                                 :
                                 null
                             }

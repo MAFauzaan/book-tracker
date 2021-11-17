@@ -8,6 +8,7 @@ import {
     MenuItem, 
     Button
 } from '@mui/material';
+import { useSelector } from 'react-redux'
 
 
 import "./BookDetailModal.scss";
@@ -15,6 +16,8 @@ import "./BookDetailModal.scss";
 
 const BookDetailModal = ({modal, setModal, contract, currentUser}) => {
     const { data } = modal;
+    
+    const libraryBooks = useSelector(state => state.books.libraryBooks);
 
     const imageUrl = `https://covers.openlibrary.org/b/isbn/${data.book_details[0].primary_isbn10}-L.jpg`;
     const bookDetails = data.book_details[0];
@@ -27,30 +30,91 @@ const BookDetailModal = ({modal, setModal, contract, currentUser}) => {
     }
     
     const DetailModal = () => {
-        
+
+        const foundBook =   libraryBooks.filter(book => book.title === title)
+
         const userOptions = [ 'List', 'Read', 'Finished'];
         
-        const [ userOption, setUserOption ] = useState('');
-        
-        const bookData = {
-            "book": {
-                "account_id": currentUser.accountId,
-                "title": bookDetails.title,
-                "description": bookDetails.description,
-                "status": userOption,
-                "image": imageUrl
-            }
-        }
-        
-        console.log(bookData)
-
+        const [ userOption, setUserOption ] = useState(foundBook.length !==0 ? foundBook[0].status : '');
+                
         const onSubmit = (e) => {
-
             e.preventDefault();
+            contract.add_book({
+                "book": {
+                    "account_id": currentUser.accountId,
+                    "title": bookDetails.title,
+                    "description": bookDetails.description,
+                    "status": userOption,
+                    "image": imageUrl
+                }
+            });
+            setTimeout(() => {window.location.reload();}, 10000);
+        };
 
-            contract.add_book(bookData);
+        const onSubmitExisting = (id) => {
+            console.log(id)
+            contract.update_book({"book_id": id, "status": userOption});
+            setTimeout(() => {window.location.reload();}, 10000);
+        };
 
-            setTimeout(() => {window.location.reload();}, 7000);
+        const UserAction = () => {
+            return (
+                <>
+                    <Typography>Add to: </Typography>
+                        <Select
+                            labelId="demo-simple-select-label"
+                            id="demo-simple-select"
+                            value={userOption}
+                            onChange={(e) => setUserOption(e.target.value)}
+                            sx={{width: '240px'}}
+                        >
+                            {
+                                userOptions.map((opt, idx) => (
+                                    <MenuItem value={opt} key={idx}>{opt}</MenuItem>
+                                ))
+                            }
+                        </Select>
+                        <Button 
+                            color="secondary"
+                            variant="contained"  
+                            sx={{width: '100px', marginTop: '30px', color: '#ffff'}}
+                            onClick={onSubmit}
+                        >
+                            Save
+                </Button>
+            </>
+            )
+        };
+
+        const ConditionalUserAction = ({id}) => {
+            return (
+                <>
+                    <Typography>Move to: </Typography>
+                    <Select
+                        labelId="demo-simple-select-label"
+                        id="demo-simple-select"
+                        value={userOption}
+                        placeholder={foundBook[0].status}
+                        onChange={(e) => setUserOption(e.target.value)}
+                        sx={{width: '240px'}}
+                    >
+                        {
+                            userOptions.map((opt, idx) => (
+                                <MenuItem value={opt} key={idx}>{opt}</MenuItem>
+                            ))
+                        }
+                    </Select>
+                    <Typography>*This book is already in your library.</Typography>
+                    <Button 
+                        color="secondary"
+                        variant="contained"  
+                        sx={{width: '100px', marginTop: '30px', color: '#ffff'}}
+                        onClick={() => onSubmitExisting(id)}
+                    >
+                        Save
+                    </Button>
+             </>
+            )
         }
 
 
@@ -74,28 +138,16 @@ const BookDetailModal = ({modal, setModal, contract, currentUser}) => {
                         <Typography>Isbn: {bookDetails.primary_isbn10}</Typography>
                         <div className="userAction">
                         <FormControl fullWidth sx={{marginTop: '50px'}}>
-                            <Typography>Add to: </Typography>
-                            <Select
-                                labelId="demo-simple-select-label"
-                                id="demo-simple-select"
-                                value={userOption}
-                                onChange={(e) => setUserOption(e.target.value)}
-                                sx={{width: '240px'}}
-                            >
-                           {
-                               userOptions.map((opt, idx) => (
-                                   <MenuItem value={opt} key={idx}>{opt}</MenuItem>
-                               ))
-                           }
-                            </Select>
-                            <Button 
-                                color="secondary"
-                                variant="contained"  
-                                sx={{width: '100px', marginTop: '30px', color: '#ffff'}}
-                                onClick={onSubmit}
-                            >
-                                Save
-                            </Button>
+                            {
+                                !currentUser ?
+                                null
+                                :
+                                foundBook.length === 1 ?
+                                <ConditionalUserAction id={foundBook[0].book_id}/>
+                                :
+                                <UserAction />           
+                            }
+                           
                         </FormControl>
                         </div>
                     </Grid>
